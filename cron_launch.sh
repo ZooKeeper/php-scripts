@@ -1,9 +1,9 @@
 #!/bin/bash
 
-CRM_ROOT=/opt/www/crm
-CRM_PATH=${CRM_ROOT}/crm.sotmarket.ru
+CRM_ROOT=/opt/www/html
+CRM_PATH=${CRM_ROOT}/html.domain.ru
 LOG_ROOT=${CRM_ROOT}/log
-LOCK_PATH=/tmp/crm_cron_locks
+LOCK_PATH=/tmp/cron_locks
 LOCKS_LOG=${LOG_ROOT}/cron_locks.log
 executable=/usr/bin/php
 allow_multiple=0
@@ -90,7 +90,6 @@ if [ $delay ];then
     sleep $delay;
 fi
 
-#eval "$executable $full_path force_run=$force $params $verbose 2>>${LOG_ROOT}/cron_errors.log"
 eval "$executable -d max_execution_time=$max_execution_time $full_path force_run=$force $params $verbose 3>&1 1>&2 2>&3 3>&-| sed  \"s%^%$path %g\" | sed 's/^/`date "+%F %T"` /g' >> ${LOG_ROOT}/cron_errors.log"
 
 safe_exit
